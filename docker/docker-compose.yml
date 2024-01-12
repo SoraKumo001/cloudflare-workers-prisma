@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: cloudflare-workers-prisma
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - cloudflare-workers-prisma-vol:/var/lib/postgresql/data
+    ports:
+      - '15432:5432'
+volumes:
+  cloudflare-workers-prisma-vol:

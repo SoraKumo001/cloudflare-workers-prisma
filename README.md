@@ -1,7 +1,21 @@
+# cloudflare-workers-prisma
+
+## Getting Started
+
+- initialize prisma
+
+npm install
+npm run dev:docker
+npm run prisma
+
+- start server
+
+npm run dev
+
+## scripts
+
+```json
 {
-	"name": "cloudflare-workers-prisma",
-	"version": "0.0.0",
-	"private": true,
 	"scripts": {
 		"dev": "npm-run-all -p dev:*",
 		"deploy": "wrangler deploy",
@@ -12,17 +26,15 @@
 		"prisma": "npm-run-all -p prisma:*",
 		"prisma:migrate": "prisma format && next-exec prisma migrate dev",
 		"prisma:generate": "prisma generate --no-engine"
-	},
-	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20231218.0",
-		"cloudflared-output-domain": "^0.0.2",
-		"npm-run-all": "^4.1.5",
-		"prisma": "^5.8.0",
-		"prisma-accelerate-local": "^0.2.2",
-		"typescript": "^5.0.4",
-		"wrangler": "^3.0.0"
-	},
-	"dependencies": {
-		"@prisma/client": "^5.8.0"
 	}
 }
+```
+
+## Connection Flow
+
+The cloudflared domain name is output to `.dev.vars` by cloudflared-output-domain
+
+```txt
+   [postgres://localhost:15432]    [http://localhost:8000]    [https://xxxx.trycloudflare.com/]
+PostgreSQL <-> prisma-accelerate-local     <->     cloudflared             <->         prisma/edge
+```
